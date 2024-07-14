@@ -69,7 +69,6 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
 

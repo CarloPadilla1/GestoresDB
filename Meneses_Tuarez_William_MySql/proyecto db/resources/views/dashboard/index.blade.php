@@ -65,17 +65,17 @@
         </div>
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createUserModal">
         Execute Script SQL
-    </button>
-    <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createUserModalLabel">Execute Script SQL</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
+        </button>
+        <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createUserModalLabel">Execute Script SQL</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                     <form action="{{ route('execute') }}" method="POST" enctype="multipart/form-data">
                         @method('POST')
                         @csrf
@@ -87,12 +87,13 @@
                             <label for="document_sql">Document SQL</label>
                             <input type="file" class="form-control" id="document_sql" name="document_sql">
                         </div>
-                        <button type="submit" class="btn btn-primary">Execute</button>
+                        <button type="submit" class="btn btn-primary" name="action" value="execute">Execute</button>
+                        <button type="submit" class="btn btn-primary" name="action" value="pdf">Pdf de consulta</button>
                     </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     @if ($errors->any())
