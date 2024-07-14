@@ -41,4 +41,11 @@ Route::middleware(['checkconnection'])->prefix('dashboard')->group(function () {
     Route::post('backup', [DashboardController::class, 'backup'])->name('backup');
     Route::post('restore', [DashboardController::class, 'restoreBackup'])->name('restore');
     Route::post('script', [DashboardController::class, 'runScript'])->name('execute');
+
+    //RUTAS PARA AUDITORIA
+    Route::get('audit', [DashboardController::class, 'viewAudit'])->name('audit.view');
+
+    Route::get('/dashboard/table/{name}/pdf', [DashboardController::class, 'generatePdf'])->name('table.pdf');
+
 });
+

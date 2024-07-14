@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 
 class DashboardController extends Controller
@@ -29,16 +30,31 @@ class DashboardController extends Controller
 
     public function viewTable($name)
     {
-        try{
-            $view = new ServiceModels($name);
-            $view = $view->setModel();
-            $data = $view['data'];
-            $columns = $view['columns'];
-            $dataForm = $view['dataForm'];
-            $primaryKey = $view['primaryKey'];
-            return view('dashboard.table', compact('data', 'columns', 'name', 'dataForm', 'primaryKey'));
-        }catch(\Exception $e){
+        try {
+            if ($name === 'auditoría') {
+                return redirect()->route('audit.view');
+            } else {
+                $view = new ServiceModels($name);
+                $view = $view->setModel();
+                $data = $view['data'];
+                $columns = $view['columns'];
+                $dataForm = $view['dataForm'];
+                $primaryKey = $view['primaryKey'];
+                return view('dashboard.table', compact('data', 'columns', 'name', 'dataForm', 'primaryKey'));
+            }
+        } catch (\Exception $e) {
             return redirect()->route('dashboard')->withErrors(['table' => 'Table not found.', 'error' => $e->getMessage()]);
+        }
+    }
+    
+    public function viewAudit()
+    {
+        try {
+            $data = DB::table('Auditoría')->get();
+            $columns = Schema::getColumnListing('Auditoría');
+            return view('dashboard.audit', compact('data', 'columns'));
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->withErrors(['audit' => 'Audit log not found.', 'error' => $e->getMessage()]);
         }
     }
 
@@ -106,7 +122,6 @@ class DashboardController extends Controller
             $delete->deleteData($id);
             return redirect()->route('table.show', $name)->with('success', 'Data deleted successfully.');
         }catch(\Exception $e){
-            dd($e->getMessage());
             return redirect()->route('table.show', $name)->withErrors(['delete' => 'Unable to delete data from the table.', 'error' => $e->getMessage()]);
         }
     }

@@ -29,6 +29,7 @@ class ServiceModels
         'analysis_type' => 'App\Models\Analysis_type',
         'treatment_type' => 'App\Models\TreamentType',
         'bills' => 'App\Models\Bill',
+        'auditoría' => 'App\Models\Auditoria',
     ];
 
     protected $relationships = [
@@ -104,7 +105,6 @@ class ServiceModels
         $data = $this->relationships ? $this->model::with($this->relationships)->get() : $this->model::get();
         $columns = $this->getColumns();
         $primaryKey = $this->getPK();
-
         $dataForm = array_filter($columns, function ($column) use ($primaryKey) {
             return $column !== $primaryKey;
         });
