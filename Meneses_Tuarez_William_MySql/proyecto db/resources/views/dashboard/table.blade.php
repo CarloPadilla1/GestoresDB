@@ -53,7 +53,7 @@
                                     </ul>
                                 @else
                                 <strong>{{ ucfirst($relationName) }}:</strong> {{ ($relation?->name ? $relation->name : ($relation?->policy_number ?
-                                    $relation?->policy_number  : ($relation?->reason_for_appointment ? $relation?->reason_for_appointment : ($relation?->state ? $relation?->state : ($relation?->result ? $relation?->result : ($relation?->medicine ? $relation?->medicine : $relation->diagnosis)) )))) ?? 'N/A'
+                                    $relation?->policy_number  : ($relation?->reason_for_appointment ? $relation?->reason_for_appointment : ($relation?->state ? $relation?->state : ($relation?->result ? $relation?->result : ($relation?->medicine ? $relation?->medicine : $relation->diagnosis ?? 'N/A')) )))) ?? 'N/A'
                                 }}
                                 @endif
                             @endforeach

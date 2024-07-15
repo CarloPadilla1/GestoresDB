@@ -44,6 +44,7 @@ Route::middleware(['checkconnection'])->prefix('dashboard')->group(function () {
 
     //RUTAS PARA AUDITORIA
     Route::get('audit', [DashboardController::class, 'viewAudit'])->name('audit.view');
+    Route::post('audit/filter', [DashboardController::class, 'filterAuditLogs'])->name('audit.filter');
 
     Route::get('pdf', [DashboardController::class, 'generatePdf'])->name('table.pdf');
 

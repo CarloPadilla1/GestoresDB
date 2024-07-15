@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Query Results</title>
+    <title>Reporte</title>
     <style>
         table {
             width: 100%;
