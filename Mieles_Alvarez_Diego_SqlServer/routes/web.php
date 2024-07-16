@@ -5,6 +5,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuditController;
+
+
+
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -43,4 +47,12 @@ Route::middleware(['checkconnection'])->prefix('dashboard')->group(function () {
     //RUTAS PARA BACKUPS
     Route::post('backup', [DashboardController::class, 'backup'])->name('backup');
     Route::post('restore', [DashboardController::class, 'restoreBackup'])->name('restore');
+    //Rutas para las auditorias
+    Route::get('/audits', [AuditController::class, 'index'])->name('audits.index');
+    Route::get('/audits/{table}', [AuditController::class, 'show'])->name('audits.show');
+    Route::get('/generate-triggers-sql', [AuditController::class, 'generateTriggersSQL'])->name('generate.triggers.sql');
+    //punto 4
+    Route::post('script', [DashboardController::class, 'runScript'])->name('execute');
+    Route::get('pdf', [DashboardController::class, 'generatePdf'])->name('table.pdf');
+
 });

@@ -6,6 +6,11 @@ use App\Services\BackupService;
 use App\Services\ServiceModels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
+
+
+use Barryvdh\DomPDF\PDF;
 
 class DashboardController extends Controller
 {
@@ -196,5 +201,71 @@ class DashboardController extends Controller
 
     return redirect()->route('dashboard')->with('success', 'Backup restored successfully.');
 }
+//punto 1
+public function runScript(Request $request)
+{
+    $request->validate([
+        'script' => 'nullable|string',
+        'document_sql' => 'nullable|file',
+    ]);
+    if ($request->input('action') === 'pdf') {
+        return $this->generatePdf($request);
+    }
+    $script = $request->input('script');
+    $documentSql = $request->file('document_sql');
 
+
+    if ($script === null && $documentSql === null) {
+        return redirect()->route('dashboard')->withErrors(['script' => 'No script provided.']);
+    }
+
+    if ($documentSql !== null) {
+        $script = file_get_contents($documentSql->getPathname());
+    }
+
+    $backupService = new BackupService();
+    $result = $backupService->executeScript($script);
+
+    if ($result['success'] === false) {
+        return redirect()->route('dashboard')->withErrors(['script' => 'Unable to run script.', 'error' => $result['error']]);
+    }
+
+    return redirect()->route('dashboard')->with('success', 'Script executed successfully.');
+}
+//punto 4
+public function generatePdf(Request $request)
+{
+    try {
+        // Validar que el campo 'script' sea opcional y una cadena de texto
+        $request->validate([
+            'script' => 'nullable|string',
+        ]);
+
+        // Obtener el valor del campo 'script' del formulario
+        $script = $request->input('script');
+
+        // Si no se proporciona ningún script, redirigir de vuelta con un mensaje de error
+        if ($script === null) {
+            return redirect()->route('dashboard')->withErrors(['script' => 'No script provided.']);
+        }
+
+        // Obtener el valor del campo 'sql' del formulario
+        $sql = $request->input('script');
+
+        // Ejecutar la consulta SQL y obtener los resultados
+        $results = DB::select($sql);
+
+        // Generar el PDF usando la vista 'dashboard.pdf' y pasando los resultados
+        $pdf = app(PDF::class);
+        $pdf->loadView('dashboard.pdf', compact('results'));
+
+        // Configurar el papel del PDF como A4 y orientación landscape
+        $pdf->setPaper('A4', 'landscape');
+
+        // Descargar el archivo PDF con el nombre 'query_result.pdf'
+        return $pdf->download('reporte.pdf');
+    } catch (\Exception $e) {
+        return redirect()->route('dashboard')->withErrors(['script' => 'Unable to run script.', 'error' => $e->getMessage()]);
+    }
+}
 }
