@@ -29,6 +29,7 @@ class ServiceModels
         'analysis_type' => 'App\Models\Analysis_type',
         'treatment_type' => 'App\Models\TreamentType',
         'bills' => 'App\Models\Bill',
+        'auditoría' => 'App\Models\Auditoria'
     ];
 
     protected $relationships = [
@@ -54,6 +55,7 @@ class ServiceModels
         'bills' => ['Appointment'],
         'medical_prescription_analysis' => ['Prescription', 'AnalysisResult'],
         'prescription' => ['Consultation','TreatmentType'],
+
     ];
 
     protected $pluck = [
@@ -80,8 +82,7 @@ class ServiceModels
     public function __construct($model)
     {
         $this->model = $this->models[$model];
-        $this->relationships = $this->relationships[$model];
-
+        $this->relationships = $this->relationships[$model] ?? null;
     }
 
 

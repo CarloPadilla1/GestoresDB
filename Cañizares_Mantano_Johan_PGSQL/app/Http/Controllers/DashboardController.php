@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Services\BackupService;
 use App\Services\ServiceModels;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -195,6 +198,73 @@ class DashboardController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Backup restored successfully.');
     }
+
+    public function filterAuditLogs(Request $request)
+    {
+        try {
+            // Validar que se proporcionó el nombre de la tabla
+            $request->validate([
+                'table' => 'required|string',
+            ]);
+
+            $tableName = $request->input('table');
+            $nameTables = DB::select('SELECT table_name FROM information_schema.tables WHERE table_schema = ?', [Session::get('db_database')]);
+            $data = DB::table('Auditoría')->where('table_name', $tableName)->get();
+            // Obtener las columnas de la tabla de auditoría
+            $columns = Schema::getColumnListing('Auditoría');
+
+            // Obtener todos los nombres de las tablas en la base de datos actual
+            $nameTables = DB::select('SELECT table_name FROM information_schema.tables WHERE table_schema = ?', [Session::get('db_database')]);
+
+            // Manejar caso en que no se encuentren registros de auditoría para la tabla seleccionada
+            if ($data->isEmpty()) {
+                return redirect()->route('audit.view')->withErrors(['dashboard.audit' => 'No hay auditorías para esta tabla.']);
+            }
+
+            // Retornar la vista 'dashboard.audit' con los datos, columnas y tablas disponibles
+            return view('dashboard.audit', compact('data', 'columns', 'nameTables'));
+        } catch (\Exception $e) {
+            // Manejar errores y redirigir con mensajes de error
+            return redirect()->route('audit.view')->withErrors(['audit' => 'No se pudo filtrar', 'error' => $e->getMessage()]);
+        }
+    }
+
+    public function generatePdf(Request $request)
+    {
+        try {
+            // Validar que el campo 'script' sea opcional y una cadena de texto
+            $request->validate([
+                'script' => 'nullable|string',
+            ]);
+
+            // Obtener el valor del campo 'script' del formulario
+            $script = $request->input('script');
+
+            // Si no se proporciona ningún script, redirigir de vuelta con un mensaje de error
+            if ($script === null) {
+                return redirect()->route('dashboard')->withErrors(['script' => 'No script provided.']);
+            }
+
+            // Obtener el valor del campo 'sql' del formulario
+            $sql = $request->input('script');
+
+            // Ejecutar la consulta SQL y obtener los resultados
+            $results = DB::select($sql);
+
+            // Generar el PDF usando la vista 'dashboard.pdf' y pasando los resultados
+            $pdf = app(PDF::class);
+            $pdf->loadView('dashboard.pdf', compact('results'));
+
+            // Configurar el papel del PDF como A4 y orientación landscape
+            $pdf->setPaper('A4', 'landscape');
+
+            // Descargar el archivo PDF con el nombre 'query_result.pdf'
+            return $pdf->download('reporte.pdf');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->withErrors(['script' => 'Unable to run script.', 'error' => $e->getMessage()]);
+        }
+    }
+
 
     public function runScript(Request $request)
     {
