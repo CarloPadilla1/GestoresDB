@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Barryvdh\DomPDF\PDF;
 use App\Jobs\QueyExecutionJob;
+use Illuminate\Support\Facades\File;
 
 class DashboardController extends Controller
 {
@@ -299,5 +300,49 @@ class DashboardController extends Controller
     
         return view('query-result', compact('auditLogs', 'tables'));
     }
+    public function generateTriggersSql()
+{
+    $sqlFilePath = storage_path('app/triggers.sql'); // Ruta donde se guardará el archivo SQL
+
+    // Inicializar el contenido del archivo SQL
+    $sqlContent = '';
+
+    // Consultar todas las tablas de la base de datos excepto la tabla Audit
+    $tables = DB::select('SELECT table_name FROM information_schema.tables WHERE table_schema = ? AND table_name != "auditoria"', [Session::get('db_database')]);
+    foreach ($tables as $table) {
+        $tableName = $table->table_name;
+
+        // Generar el SQL para los triggers de cada tabla
+        $sqlContent .= $this->generateTriggerSql($tableName, 'DELETE');
+        $sqlContent .= "\n\n";
+        $sqlContent .= $this->generateTriggerSql($tableName, 'INSERT');
+        $sqlContent .= "\n\n";
+        $sqlContent .= $this->generateTriggerSql($tableName, 'UPDATE');
+        $sqlContent .= "\n\n";
+    }
+
+    // Guardar el contenido en el archivo SQL
+    File::put($sqlFilePath, $sqlContent);
+
+    // Descargar el archivo SQL
+    return response()->download($sqlFilePath, 'triggers.sql')->deleteFileAfterSend();
+}
+
+private function generateTriggerSql($tableName, $actionType)
+{
+    $triggerSql = "
+CREATE TRIGGER trg_${tableName}_${actionType}
+AFTER $actionType ON $tableName
+FOR EACH ROW
+BEGIN
+    INSERT INTO Audit (TableName, ActionType, UserName, ActionDetails)
+    VALUES ('{$tableName}', '{$actionType}', USER(), CONCAT('${actionType}d record'));
+END;
+";
+
+    return $triggerSql;
+}
+
+
 
 }

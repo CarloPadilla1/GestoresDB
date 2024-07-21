@@ -94,10 +94,18 @@
                 </div>
             </div>
         </div>
-    </div>
-    <a type="button" class="btn btn-info mt-2 mb-2" href="{{ route('execute-queries')}}">
+        <div class="col-md-5 mt-3 ">
+                        <div class="d-inline">
+                        <a href="{{ route('generate-triggers-sql') }}" class="btn btn-primary">Generar triggers</a>
+                        </div>
+                        <div class="d-inline">
+                        <button type="button" class="btn btn-primary" onclick="window.print()">Print</button>
+                        </div>
+                        <a type="button" class="btn btn-info mt-2 mb-2" href="{{ route('execute-queries')}}">
         Show Query Results
     </a>
+                    </div>
+    </div>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>

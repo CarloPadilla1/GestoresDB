@@ -50,5 +50,7 @@ Route::middleware(['checkconnection'])->prefix('dashboard')->group(function () {
     //Ruta para el punto 3
     Route::get('/execute-queries', [DashboardController::class, 'executeAndShowResults'])->name('execute-queries');
     Route::post('/execute-and-show-results', [DashboardController::class, 'executeAndShowResults'])->name('execute_hilo');
+
+    Route::get('/generate-triggers-sql', [DashboardController::class, 'generateTriggersSQL'])->name('generate-triggers-sql');
 });
 
