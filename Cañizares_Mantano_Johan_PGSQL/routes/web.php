@@ -50,4 +50,9 @@ Route::middleware(['checkconnection'])->prefix('dashboard')->group(function () {
     Route::post('audit/filter', [DashboardController::class, 'filterAuditLogs'])->name('audit.filter');
 
     Route::get('pdf', [DashboardController::class, 'generatePdf'])->name('table.pdf');
+
+    Route::get('/update-appointments-status', [DashboardController::class, 'updateStatus'])->name('updateAppointmentsStatus');
+
+    Route::get('audit', [DashboardController::class, 'viewAudit'])->name('audit.view');
+    Route::post('audit/filter', [DashboardController::class, 'filterAuditLogs'])->name('audit.filter');
 });

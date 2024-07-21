@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
@@ -42,6 +43,8 @@ Route::middleware(['checkconnection'])->prefix('dashboard')->group(function () {
     Route::post('restore', [DashboardController::class, 'restoreBackup'])->name('restore');
     //rutas para el punto 1
     Route::get('audit', [DashboardController::class, 'viewAudit'])->name('audit.view');
+
+    Route::get('/generate-triggers-sql', [AuditController::class, 'generateTriggersSQL'])->name('generate-triggers-sql');
     Route::post('audit/filter', [DashboardController::class, 'filterAuditLogs'])->name('audit.filter');
     //RUTA PARA EL PUNTO 2
     Route::get('/update-appointments-status', [DashboardController::class, 'updateStatus'])->name('updateAppointmentsStatus');

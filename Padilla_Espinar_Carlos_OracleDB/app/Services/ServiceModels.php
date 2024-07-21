@@ -39,7 +39,7 @@ class ServiceModels
         'INSURANCE_COMPANY' => ['insurance'],
         'INSURANCE' => ['company', 'patient'],
         'APPOINTMENT_STATE' => "",
-        'APPOINTMENTS' => ['patient', 'doctor'],
+        'APPOINTMENTS' => ['patient', 'doctor', 'appointment_state'],
         'SPECIALTY' => ['doctors'],
         'PATIENTS' => ['family_background', 'insurance'],
         'APPOINTMENT' => ['patient', 'medical_staff', 'appointment_state'],

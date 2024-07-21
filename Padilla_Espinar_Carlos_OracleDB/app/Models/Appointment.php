@@ -24,7 +24,7 @@ class Appointment extends Model
         'observations',
     ];
 
-    public function appointmentState()
+    public function appointment_state()
     {
         return $this->belongsTo(AppointmentState::class, 'appointment_state_id', 'appointment_state_id');
     }

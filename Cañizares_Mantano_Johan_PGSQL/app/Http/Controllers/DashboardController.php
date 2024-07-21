@@ -19,7 +19,7 @@ class DashboardController extends Controller
     public function index()
     {
         // Consulta para obtener los nombres de las tablas base en PostgreSQL
-        $nameTables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema = 'public'");
+        $nameTables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema = 'public' ORDER BY table_name");
 
         // Retorna la vista con los nombres de las tablas
         return view('dashboard.index', compact('nameTables'));
@@ -27,13 +27,17 @@ class DashboardController extends Controller
     public function viewTable($name)
     {
         try{
-            $view = new ServiceModels($name);
-            $view = $view->setModel();
-            $data = $view['data'];
-            $columns = $view['columns'];
-            $dataForm = $view['dataForm'];
-            $primaryKey = $view['primaryKey'];
-            return view('dashboard.table', compact('data', 'columns', 'name', 'dataForm', 'primaryKey'));
+            if ($name === 'auditoría') {
+                return redirect()->route('audit.view');
+            } else {
+                $view = new ServiceModels($name);
+                $view = $view->setModel();
+                $data = $view['data'];
+                $columns = $view['columns'];
+                $dataForm = $view['dataForm'];
+                $primaryKey = $view['primaryKey'];
+                return view('dashboard.table', compact('data', 'columns', 'name', 'dataForm', 'primaryKey'));
+            }
         }catch(\Exception $e){
             return redirect()->route('dashboard')->withErrors(['table' => 'Table not found.', 'error' => $e->getMessage()]);
         }
@@ -199,6 +203,29 @@ class DashboardController extends Controller
         return redirect()->route('dashboard')->with('success', 'Backup restored successfully.');
     }
 
+
+    public function updateStatus()
+    {
+        try {
+            DB::statement("SELECT UpdateAppointmentsStatus();");
+            return redirect()->back()->with('success', 'Appointment statuses updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to update appointment statuses: ' . $e->getMessage());
+        }
+    }
+
+    public function viewAudit()
+    {
+        try {
+            $nameTables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema = 'public' ORDER BY table_name");
+            $data = DB::table('auditoría')->get();
+            $columns = Schema::getColumnListing('auditoría');
+            return view('dashboard.audit', compact('data', 'columns', 'nameTables'));
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->withErrors(['audit' => 'Audit log not found.', 'error' => $e->getMessage()]);
+        }
+    }
+
     public function filterAuditLogs(Request $request)
     {
         try {
@@ -272,6 +299,10 @@ class DashboardController extends Controller
             'script' => 'nullable|string',
             'document_sql' => 'nullable|file',
         ]);
+
+        if ($request->input('action') === 'pdf') {
+            return $this->generatePdf($request);
+        }
 
         $script = $request->input('script');
         $documentSql = $request->file('document_sql');

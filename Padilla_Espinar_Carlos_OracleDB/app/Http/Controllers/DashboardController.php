@@ -52,7 +52,7 @@ class DashboardController extends Controller
             ]);
 
             $tableName = $request->input('table');
-            $data = DB::table('Auditoría')->where('table_name', $tableName)->get();
+            $data = DB::table('Auditoría')->where('nombretabla', $tableName)->get();
             // Obtener las columnas de la tabla de auditoría
             $columns = Schema::getColumnListing('Auditoría');
 
@@ -267,7 +267,7 @@ class DashboardController extends Controller
     public function hilos_vacio()
     {
         // Cuando se accede inicialmente a la vista, auditLogs estará vacío
-        $auditLogs = collect(); 
+        $auditLogs = collect();
         return view('dashboard.index', compact('auditLogs'));
     }
 
@@ -275,7 +275,7 @@ class DashboardController extends Controller
     {
         if ($request->isMethod('post')) {
             $selectedTables = $request->input('tables', []);
-            
+
             foreach ($selectedTables as $table) {
                 $query = "SELECT * FROM " . $table;
                 QueyExecutionJob::dispatch($query);

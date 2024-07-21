@@ -131,7 +131,16 @@
             </div>
         </div>
     </div>
-    
+
+    <div class="col-md-5 mt-3 ">
+        <div class="d-inline">
+        <a href="{{ route('generate-triggers-sql') }}" class="btn btn-primary">Generar triggers</a>
+        </div>
+        <div class="d-inline">
+        <button type="button" class="btn btn-primary" onclick="window.print()">Print</button>
+        </div>
+    </div>
+
     <!-- vista de los resultados del query execute -->
     <div class="container" style="border: 5px solid red">
         <!-- Mensajes de éxito/error -->
