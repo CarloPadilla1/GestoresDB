@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
+use App\Jobs\QueyExecutionJob;
 
 use Barryvdh\DomPDF\PDF;
 
@@ -267,5 +268,23 @@ public function generatePdf(Request $request)
     } catch (\Exception $e) {
         return redirect()->route('dashboard')->withErrors(['script' => 'Unable to run script.', 'error' => $e->getMessage()]);
     }
+}
+public function executeAndShowResults(Request $request)
+{
+    if ($request->isMethod('post')) {
+        $selectedTables = $request->input('tables', []);
+        
+        foreach ($selectedTables as $table) {
+            $query = "SELECT * FROM " . $table;
+            QueyExecutionJob::dispatch($query);
+        }
+
+        sleep(5); // Por ejemplo, espera 5 segundos (ajusta según necesites)
+    }
+    $auditLogs = DB::select('SELECT * FROM query_executions ORDER BY id ');
+    $tables = DB::select("SELECT table_name FROM INFORMATION_SCHEMA.TABLES ");
+
+
+    return view('query-result', compact('auditLogs', 'tables'));
 }
 }
