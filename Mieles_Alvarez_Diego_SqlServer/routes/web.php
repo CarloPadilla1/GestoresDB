@@ -50,7 +50,10 @@ Route::middleware(['checkconnection'])->prefix('dashboard')->group(function () {
     //Rutas para las auditorias
     Route::get('/audits', [AuditController::class, 'index'])->name('audits.index');
     Route::get('/audits/{table}', [AuditController::class, 'show'])->name('audits.show');
-    Route::get('/generate-triggers-sql', [AuditController::class, 'generateTriggersSQL'])->name('generate.triggers.sql');
+    Route::get('/generate-triggers-sql', [AuditController::class, 'generateTriggersSQL'])->name('generate-triggers-sql');
+    //punto 3
+    Route::get('/execute-queries', [DashboardController::class, 'executeAndShowResults'])->name('execute-queries');
+    Route::post('/execute-and-show-results', [DashboardController::class, 'executeAndShowResults'])->name('execute_hilo');
     //punto 4
     Route::post('script', [DashboardController::class, 'runScript'])->name('execute');
     Route::get('pdf', [DashboardController::class, 'generatePdf'])->name('table.pdf');

@@ -1,12 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- <a href="{{ route('generate.triggers.sql') }}" class="btn btn-primary">Generar SQL de Triggers</a> -->
-    <div class="container">
+<div class="container">
         <div class="row justify-content-between">
+            <div class="col-md-7 mt-2">
             <h1>Audit Logs for {{ $table }}</h1>
-            <div class="col-md-2 mt-2">
+            </div>
+            <div class="col-md-5 mt-3 ">
+                <div class="d-inline">
+                <a href="{{ route('generate-triggers-sql') }}" class="btn btn-primary">Generar triggers</a>
+                </div>
+                <div class="d-inline">
                 <button type="button" class="btn btn-primary" onclick="window.print()">Print</button>
+                </div>
             </div>
         </div>
     <div>
