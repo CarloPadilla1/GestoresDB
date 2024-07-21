@@ -11,7 +11,7 @@ BEGIN
         'observations: ', NEW.observations
     ));
 END;
-//
+
 
 CREATE TRIGGER before_analysis_result_update
 BEFORE UPDATE ON analysis_result
@@ -35,7 +35,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_analysis_result_delete
 BEFORE DELETE ON analysis_result
@@ -49,7 +49,7 @@ BEGIN
         'observations: ', OLD.observations
     ));
 END;
-//
+
 
 CREATE TRIGGER before_analysis_type_insert
 BEFORE INSERT ON analysis_type
@@ -61,7 +61,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_analysis_type_update
 BEFORE UPDATE ON analysis_type
@@ -81,7 +81,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_analysis_type_delete
 BEFORE DELETE ON analysis_type
@@ -93,7 +93,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_appointments_insert
 BEFORE INSERT ON appointments
 FOR EACH ROW
@@ -109,7 +109,7 @@ BEGIN
         'observations: ', NEW.observations
     ));
 END;
-//
+
 
 CREATE TRIGGER before_appointments_update
 BEFORE UPDATE ON appointments
@@ -139,7 +139,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_appointments_delete
 BEFORE DELETE ON appointments
@@ -156,7 +156,7 @@ BEGIN
         'observations: ', OLD.observations
     ));
 END;
-//
+
 
 CREATE TRIGGER before_appointment_state_insert
 BEFORE INSERT ON appointment_state
@@ -167,7 +167,7 @@ BEGIN
         'state: ', NEW.state
     ));
 END;
-//
+
 
 CREATE TRIGGER before_appointment_state_update
 BEFORE UPDATE ON appointment_state
@@ -185,7 +185,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_appointment_state_delete
 BEFORE DELETE ON appointment_state
@@ -196,7 +196,7 @@ BEGIN
         'state: ', OLD.state
     ));
 END;
-//
+
 
 CREATE TRIGGER before_bills_insert
 BEFORE INSERT ON bills
@@ -211,7 +211,7 @@ BEGIN
         'total: ', NEW.total
     ));
 END;
-//
+
 
 CREATE TRIGGER before_bills_update
 BEFORE UPDATE ON bills
@@ -237,7 +237,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_bills_delete
 BEFORE DELETE ON bills
@@ -252,7 +252,7 @@ BEGIN
         'total: ', OLD.total
     ));
 END;
-//
+
 CREATE TRIGGER before_family_background_insert
 BEFORE INSERT ON family_background
 FOR EACH ROW
@@ -264,7 +264,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_family_background_update
 BEFORE UPDATE ON family_background
@@ -286,7 +286,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_family_background_delete
 BEFORE DELETE ON family_background
@@ -299,7 +299,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_insurance_insert
 BEFORE INSERT ON insurance
 FOR EACH ROW
@@ -312,7 +312,7 @@ BEGIN
         'expiration: ', NEW.expiration
     ));
 END;
-//
+
 
 CREATE TRIGGER before_insurance_update
 BEFORE UPDATE ON insurance
@@ -336,7 +336,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_insurance_delete
 BEFORE DELETE ON insurance
@@ -350,7 +350,7 @@ BEGIN
         'expiration: ', OLD.expiration
     ));
 END;
-//
+
 CREATE TRIGGER before_insurance_company_insert
 BEFORE INSERT ON insurance_company
 FOR EACH ROW
@@ -361,7 +361,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_insurance_company_update
 BEFORE UPDATE ON insurance_company
@@ -381,7 +381,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_insurance_company_delete
 BEFORE DELETE ON insurance_company
@@ -393,7 +393,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_medical_consultations_insert
 BEFORE INSERT ON medical_consultations
 FOR EACH ROW
@@ -407,7 +407,7 @@ BEGIN
         'treatment: ', NEW.treatment
     ));
 END;
-//
+
 
 CREATE TRIGGER before_medical_consultations_update
 BEFORE UPDATE ON medical_consultations
@@ -433,7 +433,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_medical_consultations_delete
 BEFORE DELETE ON medical_consultations
@@ -448,7 +448,7 @@ BEGIN
         'treatment: ', OLD.treatment
     ));
 END;
-//
+
 CREATE TRIGGER before_medical_department_insert
 BEFORE INSERT ON medical_department
 FOR EACH ROW
@@ -459,7 +459,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_medical_department_update
 BEFORE UPDATE ON medical_department
@@ -479,7 +479,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_medical_department_delete
 BEFORE DELETE ON medical_department
@@ -491,7 +491,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_medical_history_insert
 BEFORE INSERT ON medical_history
 FOR EACH ROW
@@ -502,7 +502,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_medical_history_update
 BEFORE UPDATE ON medical_history
@@ -522,7 +522,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_medical_history_delete
 BEFORE DELETE ON medical_history
@@ -534,7 +534,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_medical_prescription_analysis_insert
 BEFORE INSERT ON medical_prescription_analysis
 FOR EACH ROW
@@ -546,7 +546,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_medical_prescription_analysis_update
 BEFORE UPDATE ON medical_prescription_analysis
@@ -568,7 +568,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_medical_prescription_analysis_delete
 BEFORE DELETE ON medical_prescription_analysis
@@ -581,7 +581,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_medical_resources_insert
 BEFORE INSERT ON medical_resources
 FOR EACH ROW
@@ -592,7 +592,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_medical_resources_update
 BEFORE UPDATE ON medical_resources
@@ -612,7 +612,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_medical_resources_delete
 BEFORE DELETE ON medical_resources
@@ -624,7 +624,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_medical_staff_insert
 BEFORE INSERT ON medical_staff
 FOR EACH ROW
@@ -639,7 +639,7 @@ BEGIN
         'email: ', NEW.email
     ));
 END;
-//
+
 
 CREATE TRIGGER before_medical_staff_update
 BEFORE UPDATE ON medical_staff
@@ -667,7 +667,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_medical_staff_delete
 BEFORE DELETE ON medical_staff
@@ -683,7 +683,7 @@ BEGIN
         'email: ', OLD.email
     ));
 END;
-//
+
 CREATE TRIGGER before_patients_insert
 BEFORE INSERT ON patients
 FOR EACH ROW
@@ -700,7 +700,7 @@ BEGIN
         'email: ', NEW.email
     ));
 END;
-//
+
 
 CREATE TRIGGER before_patients_update
 BEFORE UPDATE ON patients
@@ -732,7 +732,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_patients_delete
 BEFORE DELETE ON patients
@@ -750,7 +750,7 @@ BEGIN
         'email: ', OLD.email
     ));
 END;
-//
+
 CREATE TRIGGER before_payment_type_insert
 BEFORE INSERT ON payment_type
 FOR EACH ROW
@@ -761,7 +761,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_payment_type_update
 BEFORE UPDATE ON payment_type
@@ -781,7 +781,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_payment_type_delete
 BEFORE DELETE ON payment_type
@@ -793,7 +793,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_prescription_insert
 BEFORE INSERT ON prescription
 FOR EACH ROW
@@ -808,7 +808,7 @@ BEGIN
         'instructions: ', NEW.instructions
     ));
 END;
-//
+
 
 CREATE TRIGGER before_prescription_update
 BEFORE UPDATE ON prescription
@@ -836,7 +836,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_prescription_delete
 BEFORE DELETE ON prescription
@@ -852,7 +852,7 @@ BEGIN
         'instructions: ', OLD.instructions
     ));
 END;
-//
+
 CREATE TRIGGER before_specialty_insert
 BEFORE INSERT ON specialty
 FOR EACH ROW
@@ -863,7 +863,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_specialty_update
 BEFORE UPDATE ON specialty
@@ -883,7 +883,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_specialty_delete
 BEFORE DELETE ON specialty
@@ -895,7 +895,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_treatment_type_insert
 BEFORE INSERT ON treatment_type
 FOR EACH ROW
@@ -906,7 +906,7 @@ BEGIN
         'description: ', NEW.description
     ));
 END;
-//
+
 
 CREATE TRIGGER before_treatment_type_update
 BEFORE UPDATE ON treatment_type
@@ -926,7 +926,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_treatment_type_delete
 BEFORE DELETE ON treatment_type
@@ -938,7 +938,7 @@ BEGIN
         'description: ', OLD.description
     ));
 END;
-//
+
 CREATE TRIGGER before_vital_signs_insert
 BEFORE INSERT ON vital_signs
 FOR EACH ROW
@@ -955,7 +955,7 @@ BEGIN
         'height: ', NEW.height
     ));
 END;
-//
+
 
 CREATE TRIGGER before_vital_signs_update
 BEFORE UPDATE ON vital_signs
@@ -987,7 +987,7 @@ BEGIN
         )
     );
 END;
-//
+
 
 CREATE TRIGGER before_vital_signs_delete
 BEFORE DELETE ON vital_signs
@@ -1006,15 +1006,3 @@ BEGIN
     ));
 END;
 //
-
-
-
-
-
-
-
-
-
-
-
-

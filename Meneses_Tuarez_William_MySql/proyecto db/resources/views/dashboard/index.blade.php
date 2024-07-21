@@ -95,7 +95,9 @@
             </div>
         </div>
     </div>
-
+    <a type="button" class="btn btn-info mt-2 mb-2" href="{{ route('execute-queries')}}">
+        Show Query Results
+    </a>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>

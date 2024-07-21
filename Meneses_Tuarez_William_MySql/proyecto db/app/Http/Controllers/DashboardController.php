@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Barryvdh\DomPDF\PDF;
+use App\Jobs\QueyExecutionJob;
 
 class DashboardController extends Controller
 {
@@ -271,6 +272,32 @@ class DashboardController extends Controller
         }
 
         return redirect()->route('dashboard')->with('success', 'Script executed successfully.');
+    }
+    //punto 3
+    public function hilos_vacio()
+    {
+        // Cuando se accede inicialmente a la vista, auditLogs estará vacío
+        $auditLogs = collect(); 
+        return view('dashboard.index', compact('auditLogs'));
+    }
+
+    public function executeAndShowResults(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $selectedTables = $request->input('tables', []);
+    
+            foreach ($selectedTables as $table) {
+                $query = "SELECT * FROM " . $table;
+                QueyExecutionJob::dispatch($query);
+            }
+    
+            sleep(5); // Por ejemplo, espera 5 segundos (ajusta según necesites)
+        }
+    
+        $auditLogs = DB::select('SELECT * FROM query_executions');
+        $tables = DB::select('SELECT table_name FROM information_schema.tables WHERE table_schema = ?', [env('DB_DATABASE')]);
+    
+        return view('query-result', compact('auditLogs', 'tables'));
     }
 
 }

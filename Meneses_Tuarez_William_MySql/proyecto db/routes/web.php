@@ -47,6 +47,8 @@ Route::middleware(['checkconnection'])->prefix('dashboard')->group(function () {
     Route::post('audit/filter', [DashboardController::class, 'filterAuditLogs'])->name('audit.filter');
 
     Route::get('pdf', [DashboardController::class, 'generatePdf'])->name('table.pdf');
-
+    //Ruta para el punto 3
+    Route::get('/execute-queries', [DashboardController::class, 'executeAndShowResults'])->name('execute-queries');
+    Route::post('/execute-and-show-results', [DashboardController::class, 'executeAndShowResults'])->name('execute_hilo');
 });
 
