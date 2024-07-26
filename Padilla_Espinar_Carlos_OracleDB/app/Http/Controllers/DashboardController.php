@@ -191,7 +191,7 @@ class DashboardController extends Controller
     $backupFilePath = $backupFile->storeAs('', $backupFile->getClientOriginalName());
 
     // Mover el archivo al directorio esperado por Oracle (DATA_PUMP_DIR)
-    $oracleDataPumpDir = 'C:\app\21c\admin\XE\dpdump';
+    $oracleDataPumpDir = 'C:\app\johan\product\21c\admin\XE\dpdump';
     $backupFileName = $backupFile->getClientOriginalName();
     $fullBackupFilePath = storage_path('app/' . $backupFilePath);
     rename($fullBackupFilePath, $oracleDataPumpDir . '/' . $backupFileName);
@@ -324,5 +324,32 @@ class DashboardController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('dashboard')->withErrors(['script' => 'Unable to run script.', 'error' => $e->getMessage()]);
         }
+    }
+
+    public function viewLogs(Request $request)
+    {
+        $query = DB::table('dba_audit_trail'); // Tabla de auditoría en Oracle
+
+
+        // Filtrar por tipo de evento si se proporciona
+        $query->when($action_name = $request->input('action_name'), function ($query) use ($action_name) {
+            return $query->where('action_name', $action_name);
+        });
+
+        if($request->has('username')){
+            $query->where('username', $request->input('username'));
+        }
+
+
+        $query->when($table_name = $request->input('object_name'), function ($query) use ($table_name) {
+            return $query->where('obj_name', $table_name);
+        });
+
+
+
+        $items = $query->get();
+        $nameTables = DB::select('SELECT table_name FROM user_tables ORDER BY table_name');
+        $actions = DB::select('SELECT DISTINCT action_name FROM dba_audit_trail ORDER BY action_name');
+        return view('logs.index', compact('items', 'nameTables', 'actions'));
     }
 }

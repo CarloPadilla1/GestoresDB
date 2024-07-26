@@ -54,5 +54,6 @@ Route::middleware(['checkconnection'])->prefix('dashboard')->group(function () {
     //Ruta para el punto 4
     Route::get('pdf', [DashboardController::class, 'generatePdf'])->name('table.pdf');
 
-
+    Route::get('/logs', [DashboardController::class, 'viewLogs'])->name('logs.view');
+    Route::get('logs_pdf', [AuditController::class, 'generateLogsPdf'])->name('logs.pdf');
 });
